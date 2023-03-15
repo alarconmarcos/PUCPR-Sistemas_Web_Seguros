@@ -36,12 +36,12 @@ public class Banco {
 	static private void criarConexaoBanco() {
 		try {
 			conn = DriverManager.getConnection("jdbc:hsqldb:file:C:\\workspace\\sisrh_db\\rh_db", "SA", "");
-			System.out.println("Conexão ao banco BANCO_SISRH.........[OK]");
+			System.out.println("Conexï¿½o ao banco BANCO_SISRH.........[OK]");
 		} catch (SQLException e) {
-			System.out.println("Conexão ao banco BANCO_SISRH.........[NOK]");
+			System.out.println("Conexï¿½o ao banco BANCO_SISRH.........[NOK]");
 			if (e.getMessage().contains("lockFile")) {
 				JOptionPane.showMessageDialog(null,
-						"O banco está bloqueado \n porque o Tomcat não liberou a conexão. REINICIE O TOMCAT");
+						"O banco estï¿½ bloqueado \n porque o Tomcat nï¿½o liberou a conexï¿½o. REINICIE O TOMCAT");
 
 			} else {
 				e.printStackTrace();
@@ -82,6 +82,35 @@ public class Banco {
 		return lista;
 	}
 
+	public static List<Empregado> listarEmpregadosAtivos(boolean ativo) throws Exception {
+		List<Empregado> lista = new ArrayList<Empregado>();
+		Connection conn = Banco.getConexao();
+
+		String sql = "SELECT * FROM Empregado";
+		PreparedStatement prepStmt = conn.prepareStatement(sql);
+		ResultSet rs = prepStmt.executeQuery();
+		while (rs.next()) {
+			String matricula = rs.getString("matricula");
+			String nome = rs.getString("nome");
+			Date admissao = rs.getDate("admissao");
+			Date desligamento = rs.getDate("desligamento");
+			Double salario = rs.getDouble("salario");
+			Empregado emp = new Empregado(matricula, nome, admissao, desligamento, salario);
+			
+			if (ativo && desligamento == null){
+				lista.add(emp);
+			}
+			if (ativo==false && desligamento != null){
+				lista.add(emp);
+			  
+			}
+		
+		}
+		rs.close();
+		prepStmt.close();
+		return lista;
+	}
+	
 	public static List<Usuario> listarUsuarios() throws Exception {
 		List<Usuario> lista = new ArrayList<Usuario>();
 		Connection conn = Banco.getConexao();

@@ -1,7 +1,10 @@
 package sisrh.dto;
 
 import java.util.Date;
+import javax.xml.bind.annotation.*;
 
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Empregado {
 
 	private String matricula;

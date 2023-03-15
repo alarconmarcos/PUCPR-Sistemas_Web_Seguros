@@ -1,0 +1,4 @@
+/*C3*/SET SCHEMA PUBLIC
+CREATE TABLE IF NOT EXISTS empregado\u000a(\u000a    matricula VARCHAR(10)  NOT NULL,\u000a    nome VARCHAR(256),\u000a    admissao DATE,\u000a    desligamento DATE,\u000a    salario FLOAT,\u000a    PRIMARY KEY (matricula)\u000a)
+CREATE TABLE IF NOT EXISTS solicitacao\u000a(\u000a    id integer NOT NULL,\u000a    data timestamp without time zone,\u000a    descricao VARCHAR(256),\u000a    situacao integer,   \u000a    matricula VARCHAR(10)  NOT NULL,\u000a    PRIMARY KEY (id)    \u000a)
+CREATE TABLE IF NOT EXISTS usuario\u000a(\u000a    nome VARCHAR(256),    \u000a    perfil integer,\u000a    senha VARCHAR(256),  \u000a    matricula VARCHAR(10),\u000a    PRIMARY KEY (nome)    \u000a)
