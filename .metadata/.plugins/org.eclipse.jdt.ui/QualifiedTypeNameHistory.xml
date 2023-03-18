@@ -1,2 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<qualifiedTypeNameHistroy/>
+<qualifiedTypeNameHistroy>
+    <fullyQualifiedTypeName name="javax.jws.WebParam"/>
+    <fullyQualifiedTypeName name="java.util.concurrent.ExecutionException"/>
+    <fullyQualifiedTypeName name="exception.DivisaoPorZeroException"/>
+    <fullyQualifiedTypeName name="java.lang.Exception"/>
+    <fullyQualifiedTypeName name="javax.annotation.Resource"/>
+    <fullyQualifiedTypeName name="javax.xml.ws.WebServiceContext"/>
+    <fullyQualifiedTypeName name="sisrh.dto.Solicitacoes"/>
+    <fullyQualifiedTypeName name="sisrh.dto.Solicitacao"/>
+    <fullyQualifiedTypeName name="sisrh.seguranca.Autenticador"/>
+</qualifiedTypeNameHistroy>

@@ -1,0 +1,5 @@
+package sisrh.exception;
+
+public class SISRHException {
+
+}
