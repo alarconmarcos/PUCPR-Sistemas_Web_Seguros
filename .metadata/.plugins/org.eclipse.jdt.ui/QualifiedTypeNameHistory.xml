@@ -7,6 +7,6 @@
     <fullyQualifiedTypeName name="javax.annotation.Resource"/>
     <fullyQualifiedTypeName name="javax.xml.ws.WebServiceContext"/>
     <fullyQualifiedTypeName name="sisrh.dto.Solicitacoes"/>
-    <fullyQualifiedTypeName name="sisrh.dto.Solicitacao"/>
     <fullyQualifiedTypeName name="sisrh.seguranca.Autenticador"/>
+    <fullyQualifiedTypeName name="sisrh.dto.Solicitacao"/>
 </qualifiedTypeNameHistroy>

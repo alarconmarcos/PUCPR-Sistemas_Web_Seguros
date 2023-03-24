@@ -1,0 +1,42 @@
+package sisrh.rest;
+
+import java.util.List;
+
+import javax.ws.rs.*;
+import javax.ws.rs.core.*;
+import javax.ws.rs.core.Response.Status;
+
+import io.swagger.annotations.Api;
+import sisrh.banco.Banco;
+import sisrh.dto.Solicitacao;
+
+@Api
+@Path("/solicitacao")
+public class SolicitacaoRest {
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response listarSolicitacoes() throws Exception {
+		List<Solicitacao> lista = Banco.listarSolicitacoes();		
+		GenericEntity<List<Solicitacao>> entity = new GenericEntity<List<Solicitacao>>(lista) {};
+		return Response.ok().entity(entity).build();
+	}
+	
+	@GET
+	@Path("{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response obterSolicitaco(@PathParam("id") Integer id) throws Exception {
+		try {
+			Solicitacao solicitacao = Banco.buscarSolicitacaoPorId(id);
+			if ( solicitacao != null ) {
+				return Response.ok().entity(solicitacao).build();
+			}else {
+				return Response.status(Status.NOT_FOUND)
+						.entity("{ \"mensagem\" : \"Solicitacao nao encontrada!\" }").build();
+			}
+		}catch (Exception e) {
+			return Response.status(Status.INTERNAL_SERVER_ERROR)
+					.entity("{ \"mensagem\" : \"Falha para obter a solicitacao!\" , \"detalhe\" :  \""+ e.getMessage() +"\"  }").build();
+		}
+	}
+
+}

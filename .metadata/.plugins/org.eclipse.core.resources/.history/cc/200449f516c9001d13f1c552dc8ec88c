@@ -1,0 +1,23 @@
+package sisrh.rest;
+
+import java.util.List;
+
+import javax.ws.rs.*;
+import javax.ws.rs.core.*;
+import javax.ws.rs.core.Response.Status;
+
+import io.swagger.annotations.Api;
+import sisrh.banco.Banco;
+import sisrh.dto.Empregado;
+
+@Api
+@Path("/solicitacao")
+public class SolicitacaoRest {
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response listarSolicitacoes() throws Exception {
+		List<Solicitacao> lista = Banco.listarSolicitacoes();		
+		GenericEntity<List<Solicitacao>> entity = new GenericEntity<List<Solicitacao>>(lista) {};
+		return Response.ok().entity(entity).build();
+	}
+}
