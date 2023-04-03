@@ -1,0 +1,91 @@
+package rbac.rest;
+
+import java.security.Key;
+import java.util.*;
+
+import javax.ws.rs.*;
+import javax.ws.rs.core.*;
+import javax.ws.rs.core.Response.Status;
+
+import io.jsonwebtoken.*;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
+import io.swagger.annotations.Api;
+import rbac.dto.*;
+
+@Api
+@Path("/loginunico")
+public class LoginUnicoRest {
+	
+	private static Map<String, Map<String, String>> rbac = new HashMap<>();
+
+	static {
+		inicializarRegrasRBAC();
+	}
+
+	private static void inicializarRegrasRBAC() {
+		Map<String, String> perfil_admin = new HashMap<>();
+		perfil_admin.put("empregado", "GET,POST,PUT,DELETE");
+		perfil_admin.put("usuario", "GET,POST,PUT,DELETE");
+		perfil_admin.put("sistema", "GET");
+
+		Map<String, String> perfil_user = new HashMap<>();
+		perfil_user.put("empregado", "GET");
+		perfil_user.put("sistema", "GET");
+
+		rbac.put("ADMIN", perfil_admin);
+		rbac.put("USER", perfil_user);
+	}
+	
+	private static Key chavePrivada = null;
+	private static Map<String, Map<String, String>> rbac = new HashMap<>();
+
+	private static Key getPrivateKey() {
+		if (chavePrivada == null) {
+			String privateKey = "wb8w338e24f11f4692a95738fe2e893c2ab8338e24f11f4e64";
+			byte[] keyBytes = Decoders.BASE64.decode(privateKey);
+			chavePrivada = Keys.hmacShaKeyFor(keyBytes);
+		}
+		return chavePrivada;
+	}
+
+	private static Jws<Claims> validarToken(String tokenJWT) throws Exception {
+		try {
+			Jws<Claims> declaracoes = Jwts.parserBuilder()
+					.setSigningKey(getPrivateKey())
+					.build()
+					.parseClaimsJws(tokenJWT);
+			return declaracoes;
+		} catch (ExpiredJwtException e) {
+			throw new RuntimeException("Token expirado!");
+		} catch (MalformedJwtException ex) {
+			throw new RuntimeException("Token mal formado!");
+		}
+	}
+	
+	public static String gerarToken(String usuario, String perfil) throws Exception {
+		Map<String, Object> headers = new HashMap<String, Object>();
+		headers.put("typ", "JWT");
+		HashMap<String, String> claims = new HashMap<String, String>();
+		claims.put("iss", "SSO SISRH");
+		claims.put("aud", "Publico");
+		claims.put("user", usuario);
+		claims.put("perfil", perfil);
+
+		final Date dtCriacao = new Date();
+		final Date dtExpiracao = new Date(dtCriacao.getTime() + 1000 * 60 * 15);
+		String jwtToken = Jwts.builder()
+				.setHeader(headers)
+				.setIssuedAt(new Date())
+				.setClaims(claims)
+				.setSubject("Acesso RBAC")
+				.setIssuedAt(dtCriacao)
+				.setExpiration(dtExpiracao)
+				.signWith(getPrivateKey())
+				.compact();
+		return jwtToken;
+	}
+
+
+}
+

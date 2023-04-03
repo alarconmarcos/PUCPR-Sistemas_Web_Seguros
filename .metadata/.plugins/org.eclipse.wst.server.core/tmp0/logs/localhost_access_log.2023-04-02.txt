@@ -1,0 +1,4 @@
+127.0.0.1 - - [02/Apr/2023:21:37:39 -0300] "GET / HTTP/1.1" 404 763
+127.0.0.1 - - [02/Apr/2023:21:40:03 -0300] "POST /rbac/rest/loginunico/autenticar HTTP/1.1" 200 248
+127.0.0.1 - - [02/Apr/2023:21:42:33 -0300] "POST /rbac/rest/loginunico/validar HTTP/1.1" 200 37
+127.0.0.1 - - [02/Apr/2023:21:49:40 -0300] "POST /rbac/rest/loginunico/validar HTTP/1.1" 403 33

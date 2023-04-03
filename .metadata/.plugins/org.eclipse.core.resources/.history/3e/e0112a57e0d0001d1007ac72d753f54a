@@ -1,0 +1,5 @@
+package rbac.dto;
+
+public class Login {
+
+}

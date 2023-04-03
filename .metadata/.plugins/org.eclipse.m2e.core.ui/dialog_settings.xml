@@ -49,6 +49,7 @@
 		<list key="name">
 		</list>
 		<list key="artifactId">
+			<item value="rbac"/>
 			<item value="projetosoa"/>
 		</list>
 		<list key="projectNameTemplate">

@@ -1,0 +1,20 @@
+package rbac.rest;
+
+import java.security.Key;
+import java.util.*;
+
+import javax.ws.rs.*;
+import javax.ws.rs.core.*;
+import javax.ws.rs.core.Response.Status;
+
+import io.jsonwebtoken.*;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
+import io.swagger.annotations.Api;
+import rbac.dto.*;
+
+@Api
+@Path("/loginunico")
+public class LoginUnicoRest {
+
+}
