@@ -1,0 +1,37 @@
+package sisrh.seguranca;
+
+import java.math.*;
+import java.security.*;
+import java.security.MessageDigest;
+import java.sql.*;
+import java.util.Date;
+import java.util.*;
+
+
+import io.jsonwebtoken.*;
+import io.jsonwebtoken.io.*;
+import io.jsonwebtoken.security.*;
+import sisrh.banco.*;
+import sisrh.dto.*;
+
+public class LoginUnico {	
+
+	private static Key chavePrivada = null;
+
+	private static Key getPrivateKey() {
+		if (chavePrivada == null) {
+			String privateKey = "b8338e24f11f4692a95738fe2e893c2ab8338e24f11f46";
+			byte[] keyBytes = Decoders.BASE64.decode(privateKey);
+			chavePrivada = Keys.hmacShaKeyFor(keyBytes);
+		}
+		return chavePrivada;
+	}
+	public static String md5(String valor) throws Exception {
+		String s = valor;
+		MessageDigest m = MessageDigest.getInstance("MD5");
+		m.update(s.getBytes(), 0, s.length());
+		return "" + new BigInteger(1, m.digest()).toString(16);
+	}
+
+}
+
