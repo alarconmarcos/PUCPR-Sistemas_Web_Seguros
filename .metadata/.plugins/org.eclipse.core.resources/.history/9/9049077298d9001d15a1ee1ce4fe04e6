@@ -1,0 +1,88 @@
+<script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.js"></script>
+<div id="app">
+<h1> Sistema Financeiro (SISFIN) </h1>
+<h2> Módulo de Integração ao SISRH </h2>
+
+1
+Usuário:
+<input v-model="usuario" placeholder="Usurio">
+Senha:
+<input v-model="senha" placeholder="Senha">
+<button v-on:click="login">Login</button>
+<hr/>
+Token JWT:
+<div style="color: blue; width: 400px; word-wrap: break-word" >
+{{ tokenJWT }}
+</div>
+<hr/>
+<h3>Folha de Pagamento </h3>
+<button v-on:click="listarEmpregados">Calcular Folha</button>
+<div style="color: red">{{errorMessage}}</div>
+<div v-if="totalFolha > 0">
+<hr/>
+<div style="color: blue">Total de Empregados: {{ totalEmpregados }}</div>
+<div style="color: blue">Folha de Pagamento: R$ {{totalFolha}},00</div>
+<hr/>
+<h3 v-if="totalFolha > 0">Lista de Empregados </h3>
+<ul id="example-1">
+ <li v-for="empregado in listaEmpregado" :key="empregado.matricula">
+ {{ empregado.nome }} : R$ {{ empregado.salario }},00
+ </li>
+</ul>
+<hr/>
+</div>
+</div>
+<script>
+var app = new Vue({
+ el: '#app',
+ data: {
+ url: 'http://localhost:8080/sisrh/rest',
+ usuario : 'sisfin',
+ senha : '123456',
+ tokenJWT: 'vazio',
+ errorMessage : "",
+ listaEmpregado: []
+ },
+ methods: {
+ login: function (event) {
+ this.tokenJWT = 'vazio';
+ this.errorMessage = "";
+ this.listaEmpregado = [];
+ const login = { 'usuario' : this.usuario, 'senha' : this.senha };
+ axios.post(this.url + '/loginunico/jwt', login)
+ .then(response => this.tokenJWT = response.data)
+ .catch(error => {
+ this.errorMessage = error;
+ console.error("There was an error!", error);
+ });
+ },
+ listarEmpregados: function (event) {
+ axios.get(this.url + '/empregado', { 'headers': { 'jwt': this.tokenJWT } })
+ .then(response => this.listaEmpregado = response.data)
+ .catch(error => {
+ this.errorMessage = error.message;
+
+2
+ console.error("There was an error!", error);
+ });
+ }
+ }
+ ,
+ computed: {
+ totalFolha: function () {
+ return this.listaEmpregado.reduce(
+ ( acumulador, emp ) => acumulador + emp.salario, 0
+ );
+ },
+ totalEmpregados: function () {
+ return this.listaEmpregado.length;
+ }
+ }
+})
+</script>
+<style lang="sass">
+body {
+ font: normal 12px Verdana, Arial, sans-serif;
+}
+</style>
