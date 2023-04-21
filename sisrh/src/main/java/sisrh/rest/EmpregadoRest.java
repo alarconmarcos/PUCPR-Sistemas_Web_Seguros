@@ -21,6 +21,23 @@ public class EmpregadoRest {
 		return Response.ok().entity(entity).build();
 	}
 
+	@GET
+	@Path("/ativos")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response listarEmpregadosAtivos() throws Exception {
+		List<Empregado> lista = Banco.listarEmpregadosAtivos(true);		
+		GenericEntity<List<Empregado>> entity = new GenericEntity<List<Empregado>>(lista) {};
+		return Response.ok().entity(entity).build();
+	}
+	
+	@GET
+	@Path("/inativos")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response listarEmpregadosInativos() throws Exception {
+		List<Empregado> lista = Banco.listarEmpregadosAtivos(false);		
+		GenericEntity<List<Empregado>> entity = new GenericEntity<List<Empregado>>(lista) {};
+		return Response.ok().entity(entity).build();
+	}
 	
 	@GET
 	@Path("{matricula}")

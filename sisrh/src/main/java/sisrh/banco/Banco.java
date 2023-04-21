@@ -87,10 +87,7 @@ public class Banco {
 		List<Empregado> lista = new ArrayList<Empregado>();
 		Connection conn = Banco.getConexao();
 
-		String sql = "SELECT * FROM Solicitacao as s\r\n"
-				+ "INNER JOIN Empregado as e ON s.matricula = e.matricula\r\n"
-				+ "INNER JOIN Usuario as u ON e.matricula = u.matricula\r\n"
-				+ "WHERE u.nome = ?";
+		String sql = "SELECT * FROM Empregado order by nome";
 		PreparedStatement prepStmt = conn.prepareStatement(sql);
 		ResultSet rs = prepStmt.executeQuery();
 		while (rs.next()) {
